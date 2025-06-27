@@ -134,3 +134,26 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# SQLite database
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+
+# Docker artifacts
+docker-compose.override.yml
+.docker/
+**/.container/
+**/tmp/
+
+# MLX debug files (si Codam / 42 context)
+*.dSYM/
+*.core
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
