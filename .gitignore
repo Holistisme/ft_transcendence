@@ -157,3 +157,10 @@ Thumbs.db
 
 # VSCode
 .vscode/
+
+# Build output
+dist/
+public/
+
+# OS / IDE
+.idea/
