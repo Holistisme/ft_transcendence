@@ -1,0 +1,31 @@
+{
+  "name": "ft_transcendence",
+  "version": "1.0.0",
+  "description": "Surprise",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Holistisme/ft_transcendence.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Holistisme/ft_transcendence/issues"
+  },
+  "homepage": "https://github.com/Holistisme/ft_transcendence#readme",
+  "dependencies": {
+    "@fastify/cors": "^11.0.1",
+    "@fastify/helmet": "^13.0.1",
+    "@fastify/static": "^8.2.0",
+    "dotenv": "^17.0.0",
+    "fastify": "^5.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.7",
+    "typescript": "^5.8.3"
+  }
+}
