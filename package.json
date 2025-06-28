@@ -4,7 +4,10 @@
   "description": "Surprise",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/backend/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/backend/server.ts"
   },
   "repository": {
     "type": "git",
@@ -26,6 +29,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.7",
-    "typescript": "^5.8.3"
+    "ts-node-dev": "^2.0.0",
+    "typescript":  "^5.8.3"
   }
 }
