@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 09:54:20 by aheitz            #+#    #+#             */
 /*   Updated: 2025/06/30 12:49:37 by adesille         ###   ########.fr       */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +19,13 @@ import helmet from "@fastify/helmet";
 import cors from "@fastify/cors";
 import { userRoutes } from './routes/users';
 
-const PORT = Number(process.env.PORT) || 3000;
-const HOST = process.env.HOST || '0.0.0.0';
+
+import fastify from         "fastify";
+import helmet  from "@fastify/helmet";
+import cors    from   "@fastify/cors";
+
+const PORT = Number(process.env.PORT) ||      3000;
+const HOST = process.env.HOST         || '0.0.0.0';
 
 const app = fastify({logger: true});
 

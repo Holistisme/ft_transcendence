@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "lite-server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc --watch"
+    "dev:frontend": "tsc --watch",
+    "dev:backend": "ts-node-dev --respawn --transpile-only src/backend/server.ts",
+    "start:frontend": "lite-server",
+    "start:backend": "node dist/backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -40,5 +42,6 @@
     "@types/node": "^24.0.7",
     "lite-server": "^2.6.1",
     "typescript": "^5.8.3"
+    "ts-node-dev": "^2.0.0",
   }
 }

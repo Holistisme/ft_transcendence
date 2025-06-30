@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    user: node
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    # healthcheck: //TODO: Uncomment when healthcheck is implemented
+    #   test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    networks:
+      - backend-net
+    restart: "on-failure:5"
+
+networks:
+  backend-net:
+    driver: bridge
