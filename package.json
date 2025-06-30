@@ -4,17 +4,28 @@
   "description": "Surprise",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "node dist/backend/server.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/backend/server.ts"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:frontend": "tsc --watch",
+    "dev:backend": "ts-node-dev --respawn --transpile-only src/backend/server.ts",
+    "start:frontend": "lite-server",
+    "start:backend": "node dist/backend/server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Holistisme/ft_transcendence.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "transcendence",
+    "pong",
+    "web",
+    "game",
+    "multiplayer",
+    "crusade",
+    "holy-grail",
+    "tournament"
+  ],
+  "author": "adesille, aheitz",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Holistisme/ft_transcendence/issues"
@@ -29,7 +40,8 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.7",
+    "lite-server": "^2.6.1",
+    "typescript": "^5.8.3"
     "ts-node-dev": "^2.0.0",
-    "typescript":  "^5.8.3"
   }
 }
