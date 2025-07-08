@@ -14,11 +14,7 @@
 // A simple Fastify server that responds with "Hello Pong!" on the root path.
 
 import 'dotenv/config';
-import fastify from "fastify";
-import helmet from "@fastify/helmet";
-import cors from "@fastify/cors";
 import { userRoutes } from './routes/users';
-
 
 import fastify from         "fastify";
 import helmet  from "@fastify/helmet";

@@ -3,12 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aheitz <aheitz@student.42.fr>              +#+  +:+       +#+         #
+#    By: alexy <alexy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/28 15:31:51 by aheitz            #+#    #+#              #
-#    Updated: 2025/06/28 15:45:08 by aheitz           ###   ########.fr        #
+#    Updated: 2025/07/08 17:08:31 by alexy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+//TODO: Check and mute errors caused by nonexistent docker files.
 
 # Makefile for ft_transcendence project
 
@@ -26,7 +28,7 @@ build: install
 
 install:
 	@echo "Installing dependencies..."
-	@npm ci
+	@npm install
 
 dev:
 	@echo "Starting the development server..."
@@ -40,6 +42,9 @@ run:
 	@echo "Running the Docker container..."
 	@docker run --rm -p 3000:3000 $(IMAGE)
 
+execute: all docker-build run
+	@echo "Executing the project in Docker..."
+
 compose-up:
 	@echo "Starting the application using Docker Compose..."
 	@docker-compose -f $(COMPOSE) up -d
@@ -52,7 +57,7 @@ clean:
 	@echo "Cleaning up..."
 	@rm -rf dist/ $(NODE_MODULES) public/*.html
 
-fclean: clean
+fclean: stop clean
 	@echo "Removing Docker image..."
 	@docker rmi $(IMAGE) || true
 	@rm -rf public/ dist/
@@ -65,6 +70,7 @@ help:
 	@echo "  all          - Build the project"
 	@echo "  build        - Build the project and install dependencies"
 	@echo "  run          - Run the Docker container"
+	@echo "  execute      - Build, run, and execute the project in Docker"
 	@echo "  stop         - Stop the Docker container"
 	@echo "  clean        - Clean up build artifacts"
 	@echo "  fclean       - Clean up and remove Docker image"
