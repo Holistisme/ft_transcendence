@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <title>ft_transcendence</title>
-  </head>
-  <body>
-    <nav>
-      <a href="/" data-link>Accueil</a>
-      <a href="/game" data-link>Jeu</a>
-    </nav>
-    <div id="app"></div>
-    <script type="module" src="./dist/main.js"></script>
-  </body>
+<html lang="en">
+<head>
+  <base    href="/"    />
+  <meta charset="UTF-8"/>
+  <title>ft_transcendence</title>
+  <style>
+    html, body {
+      margin:          0;
+      padding:         0;
+      height:       100%;
+      width:        100%;
+      overflow-x: hidden;
+    }
+    body {
+      position: relative;
+    }
+    #app {
+      position: absolute;
+      top:             0;
+      left:            0;
+      width:        100%;
+      min-height:   100%;
+      z-index:         0;
+    }
+    nav {
+      position: relative;
+      z-index:        10;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/"        data-link>Home   </a>
+    <a href="/game"    data-link>Game   </a>
+    <a href="/profile" data-link>Profile</a>
+    <a href="/login"   data-link>Login  </a>
+  </nav>
+  <div id="app"></div>
+  <script type="module" src="/frontend/main.js"></script>
+</body>
 </html>

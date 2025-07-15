@@ -1,0 +1,128 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wip.css                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/10 21:49:49 by alexy             #+#    #+#             */
+/*   Updated: 2025/07/15 14:11:31 by alexy            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+* {
+  margin:     0;
+  padding:    0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height:     100%;
+  width:      100%;
+  overflow-x: hidden;
+  margin:     0;
+  padding:    0;
+}
+
+body {
+  position: relative;
+}
+
+#app {
+  min-height:     100vh;
+  width:          100%;
+  display:        flex;
+  flex-direction: column;
+  position:       relative;
+}
+
+body::before {
+  content:              "";
+  position:             fixed;
+  top:                  -5px;
+  left:                 -5px;
+  right:                -5px;
+  bottom:               -5px;
+  background:            url('/assets/wip.png') no-repeat center/cover;
+  background-attachment: fixed;
+  z-index:               -1;
+}
+
+.wip-page {
+  min-height:     100vh;
+  width:          100%;
+  color:          white;
+  text-align:     center;
+  padding:        3rem 0 0 0;
+  z-index:        0;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+}
+
+.wip-page section {
+  padding:          20px;
+  max-width:        800px;
+  width:            100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius:    10px;
+  margin:           0 auto;
+}
+
+nav {
+  z-index:  10;
+  position: relative;
+}
+
+a {
+  color:            white;
+  text-decoration:  none;
+  padding:          5px 10px;
+  margin:           0 5px;
+  border-radius:    5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition:       background-color 0.3s ease;
+}
+
+a:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+form {
+  display:        flex;
+  flex-direction: column;
+  gap:            15px;
+  margin-top:     20px;
+  width:          100%;
+  max-width:      400px;
+  margin-left:    auto;
+  margin-right:   auto;
+}
+
+label {
+  display:       block;
+  margin-bottom: 5px;
+  font-weight:   bold;
+}
+
+input, button {
+  padding:       8px 12px;
+  border-radius: 5px;
+  border:        none;
+}
+
+input {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+button {
+  background-color: #4a90e2;
+  color:            white;
+  font-weight:      bold;
+  cursor:           pointer;
+  transition:       background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #357abd;
+}

@@ -3,46 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   server.ts                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adesille <adesille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/28 09:54:20 by aheitz            #+#    #+#             */
-/*   Updated: 2025/06/30 12:49:37 by adesille         ###   ########.fr       */
-
+/*   Created: 2025/07/10 13:16:23 by alexy             #+#    #+#             */
+/*   Updated: 2025/07/15 13:34:19 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// A simple Fastify server that responds with "Hello Pong!" on the root path.
+import                       'dotenv/config';
+import { userRoutes } from  './routes/users';
+import fastify        from         'fastify';
+import helmet         from '@fastify/helmet';
+import cors           from   '@fastify/cors';
+import path           from            'path';
+import staticPlugin   from '@fastify/static';
 
-import 'dotenv/config';
-import { userRoutes } from './routes/users';
-
-import fastify from         "fastify";
-import helmet  from "@fastify/helmet";
-import cors    from   "@fastify/cors";
-
-const PORT = Number(process.env.PORT) ||      3000;
+const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST         || '0.0.0.0';
 
-const app = fastify({logger: true});
+const app = fastify({
+  logger: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        colorize:      true,
+        translateTime: 'HH:MM:ss.l',
+        ignore:        'pid,hostname',
+        levelFirst:    true,
+        messageFormat: '{msg}\n',
+        crlf:          true,
+        timestampKey:  'time',
+        hideObject:    true,
+        quoteString:   false,
+        errorLikeObjectKeys: ['err', 'error'],
+      },
+    },
+  },
+});
 
-// Register plugins
 app.register(helmet);
-app.register(cors, { origin: true });
+app.register(cors, {origin: true});
 
-// Register routes
-app.register(userRoutes);
+app.register(staticPlugin, {
+  root:          path.join(__dirname, '../../dist/assets'),
+  prefix:        '/assets/',
+  wildcard:      true,
+  decorateReply: false,
+});
 
-// Default route
-app.get("/", async () => 'Hello Pong!');
+app.register(staticPlugin, {
+  root:          path.join(__dirname, '../../dist/frontend/views'),
+  prefix:        '/views/',
+  wildcard:      true,
+  decorateReply: false,
+});
 
-const start = async () => {
-    try {
-        await app.listen({port: PORT, host: HOST});
-        app.log.info(`Server listening on http://${HOST}:${PORT}`);
-    } catch (err) {
-        app.log.error(err);
-        process.exit(1);
+app.register(staticPlugin, {
+  root:          path.join(__dirname, '../../dist/frontend'),
+  prefix:        '/frontend/',
+  wildcard:      true,
+  decorateReply: true,
+});
+
+app.get('/', (req, reply) => {
+  reply.sendFile('index.html', path.join(__dirname,'../../dist'))
+});
+
+app.route({
+  method: ['GET','HEAD'],
+  url: '/*',
+  handler(req, reply) {
+    const url = req.raw.url || ''
+    if (
+      url.startsWith('/user') ||
+      url.startsWith('/assets/') ||
+      url.startsWith('/views/') ||
+      /\.\w+$/.test(url)
+    ) {
+      return reply.callNotFound()
     };
-};
+    reply.sendFile('index.html', path.join(__dirname,'../../dist'))
+  },
+});
 
-start();
+app.listen({port: PORT, host: HOST})
+  .then(() => app.log.info(`Server listening on http://${HOST}:${PORT}`))
+  .catch(err => {
+    app.log.error(err);
+    process.exit(1);
+  });

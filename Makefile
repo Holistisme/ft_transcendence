@@ -6,11 +6,12 @@
 #    By: alexy <alexy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/28 15:31:51 by aheitz            #+#    #+#              #
-#    Updated: 2025/07/08 17:08:31 by alexy            ###   ########.fr        #
+#    Updated: 2025/07/09 13:20:34 by alexy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-//TODO: Check and mute errors caused by nonexistent docker files.
+#TODO: Check and mute errors caused by nonexistent docker files.
+#TODO: Generate package-lock.json files if they do not exist.
 
 # Makefile for ft_transcendence project
 
@@ -57,7 +58,7 @@ clean:
 	@echo "Cleaning up..."
 	@rm -rf dist/ $(NODE_MODULES) public/*.html
 
-fclean: stop clean
+fclean: clean
 	@echo "Removing Docker image..."
 	@docker rmi $(IMAGE) || true
 	@rm -rf public/ dist/
