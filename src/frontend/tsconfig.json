@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2017", "DOM"],
+    "module": "esnext",
+    "target": "es2017",
+    "outDir": "../../dist/frontend",
+    "rootDir": ".",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "**/*"
+  ]
+}
