@@ -6,7 +6,7 @@
 #    By: alexy <alexy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/10 11:49:51 by alexy             #+#    #+#              #
-#    Updated: 2025/07/15 11:35:56 by alexy            ###   ########.fr        #
+#    Updated: 2025/07/17 19:48:34 by alexy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,10 @@ WORKDIR /app
 COPY package*.json ./
 RUN  npm ci --production
 
-COPY --from=builder /app/dist                ./dist
-COPY --from=builder /app/src/frontend/views  ./frontend/views
-COPY --from=builder /app/src/frontend/assets ./dist/assets
+COPY --from=builder /app/dist                 ./dist
+COPY --from=builder /app/src/frontend/views   ./dist/frontend/views
+COPY --from=builder /app/src/frontend/assets  ./dist/assets
+COPY --from=builder /app/src/frontend/modules ./dist/frontend/modules
 
 ENV NODE_ENV=production
 CMD ["node", "dist/backend/server.js"]

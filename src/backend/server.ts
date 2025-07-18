@@ -6,7 +6,7 @@
 /*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 13:16:23 by alexy             #+#    #+#             */
-/*   Updated: 2025/07/15 13:34:19 by alexy            ###   ########.fr       */
+/*   Updated: 2025/07/18 09:30:19 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,22 @@ const app = fastify({
   },
 });
 
-app.register(helmet);
+app.register(helmet, {
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"                   ],
+      scriptSrc:  ["'self'", "'unsafe-eval'"  ],
+      styleSrc:   ["'self'", "'unsafe-inline'"],
+      imgSrc:     ["'self'", "data:", "blob:" ],
+      mediaSrc:   ["'self'", "data:", "blob:" ],
+      connectSrc: ["'self'"                   ],
+      fontSrc:    ["'self'"                   ],
+      objectSrc:  ["'none'"                   ],
+      frameSrc:   ["'none'"                   ],
+    },
+  },
+});
+
 app.register(cors, {origin: true});
 
 app.register(staticPlugin, {
@@ -54,6 +69,20 @@ app.register(staticPlugin, {
 app.register(staticPlugin, {
   root:          path.join(__dirname, '../../dist/frontend/views'),
   prefix:        '/views/',
+  wildcard:      true,
+  decorateReply: false,
+});
+
+app.register(staticPlugin, {
+  root:          path.join(__dirname, '../../dist/frontend/modules/graphics3D'),
+  prefix:        '/graphics3D/',
+  wildcard:      true,
+  decorateReply: false,
+});
+
+app.register(staticPlugin, {
+  root:          path.join(__dirname, '../../dist/frontend/modules'),
+  prefix:        '/modules/',
   wildcard:      true,
   decorateReply: false,
 });
@@ -78,6 +107,9 @@ app.route({
       url.startsWith('/user') ||
       url.startsWith('/assets/') ||
       url.startsWith('/views/') ||
+      url.startsWith('/frontend/') ||
+      url.startsWith('/modules/') ||
+      url.startsWith('/graphics3D/') ||
       /\.\w+$/.test(url)
     ) {
       return reply.callNotFound()

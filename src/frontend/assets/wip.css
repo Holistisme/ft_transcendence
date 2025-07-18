@@ -6,7 +6,7 @@
 /*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 21:49:49 by alexy             #+#    #+#             */
-/*   Updated: 2025/07/15 14:11:31 by alexy            ###   ########.fr       */
+/*   Updated: 2025/07/18 09:28:19 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ body::before {
   align-items:    center;
 }
 
-.wip-page section {
+.wip-page section:not(.game-container) {
   padding:          20px;
   max-width:        800px;
   width:            100%;
@@ -125,4 +125,53 @@ button {
 
 button:hover {
   background-color: #357abd;
+}
+
+/* Colors are not final, just placeholders */
+
+.game-container {
+  position:        absolute;
+  top:             50px;
+  left:            0;
+  width:           100vw;
+  height:          calc(100vh - 50px);
+  background:      #49099c;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+}
+
+.game-container h1 {
+  color:          rgb(0, 238, 255);
+  font-size:      2rem;
+  margin-bottom:  20px;
+}
+
+.game-container .game-status {
+  color:          rgb(196, 138, 15);
+  font-size:      1.2rem;
+  margin-bottom:  20px;
+  text-align:     center;
+}
+
+.game-container button {
+  background-color: #dd4ae2;
+  color:            rgb(168, 17, 17);
+  font-weight:      bold;
+  cursor:           pointer;
+  padding:          10px 20px;
+  border-radius:    5px;
+  transition:       background-color 0.3s ease;
+}
+
+#game-canvas {
+  width:     90vw;
+  height:          70vh;
+  border:    1px solid #1db95e;
+  display:   block;
+  background-color: rgba(187, 214, 255, 0.623);
+  margin: 0 auto;
 }
