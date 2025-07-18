@@ -4,7 +4,7 @@
   "description": "Surprise",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -p src/backend && tsc -p src/frontend && cp index.html dist/ && cp -r src/frontend/views dist/frontend/ && cp -r src/frontend/assets dist/assets",
+    "build": "tsc -p src/backend && tsc -p src/frontend && cp index.html dist/ && cp -r src/frontend/views dist/frontend/ && cp -r src/frontend/assets dist/assets && cp -r src/frontend/modules dist/frontend",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:frontend": "tsc --watch",
     "dev:backend": "ts-node-dev --respawn --transpile-only src/backend/server.ts",
@@ -32,6 +32,8 @@
   },
   "homepage": "https://github.com/Holistisme/ft_transcendence#readme",
   "dependencies": {
+    "@babylonjs/core": "^8.16.1",
+    "@babylonjs/gui": "^8.16.1",
     "@fastify/cors": "^11.0.1",
     "@fastify/helmet": "^13.0.1",
     "@fastify/static": "^8.2.0",
