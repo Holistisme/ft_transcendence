@@ -6,7 +6,7 @@
 /*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 18:09:31 by alexy             #+#    #+#             */
-/*   Updated: 2025/07/17 18:37:50 by alexy            ###   ########.fr       */
+/*   Updated: 2025/07/21 18:16:42 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@ declare const BABYLON: any;
 let audioEngine :   any;
 let hitSound    :   any;
 let bounceSound :   any;
+let goalSound   :   any;
+let themeMusic  :   any;
 let soundsReady = false;
 
 /**
@@ -27,6 +29,11 @@ export async function initAudio(): Promise<void> {
 
     hitSound    = await BABYLON.CreateSoundAsync("hitSound",    "/assets/sounds/hit.mp3");
     bounceSound = await BABYLON.CreateSoundAsync("bounceSound", "/assets/sounds/bounce.mp3");
+    goalSound   = await BABYLON.CreateSoundAsync("goalSound",   "/assets/sounds/goal.mp3");
+    themeMusic  = await BABYLON.CreateSoundAsync("themeMusic",  "/assets/sounds/theme.mp3", {
+      loop:     true,
+      autoplay: true,
+    });
 
     await audioEngine.unlockAsync();
 
@@ -58,5 +65,17 @@ export function playBounceSound(): void {
     console.log("Bounce sound played");
   } else {
     console.warn("Bounce sound not ready");
+  };
+};
+
+/**
+ * Play the goal sound.
+ */
+export function playGoalSound(): void {
+  if (soundsReady && goalSound) {
+    goalSound.play();
+    console.log("Goal sound played");
+  } else {
+    console.warn("Goal sound not ready");
   };
 };
