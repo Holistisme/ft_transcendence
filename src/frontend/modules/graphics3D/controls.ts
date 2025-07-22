@@ -6,13 +6,15 @@
 /*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 18:11:17 by alexy             #+#    #+#             */
-/*   Updated: 2025/07/17 18:49:21 by alexy            ###   ########.fr       */
+/*   Updated: 2025/07/21 18:24:25 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 declare const BABYLON: any;
 
-import { hitBallToPlayer1, hitBallToPlayer2 } from "./ball.js";
+import { movePad } from  "./pad.js";
+
+const keysPressed: {[key: string]: boolean} = {};
 
 /**
  * Initialize controls for the game
@@ -27,24 +29,24 @@ export function initControls(scene: any): void {
   console.log("Initializing controls...");
   scene.actionManager = new BABYLON.ActionManager(scene);
 
-  scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
-    BABYLON.ActionManager.OnKeyDownTrigger,
-    (evt: any) => {
-      if (evt.sourceEvent.key === 'a' || evt.sourceEvent.key === 'A') {
-        hitBallToPlayer2();
-      };
-    },
-  ));
-  console.log("Controls initialized for hitting ball to player 2");
+  window.addEventListener('keydown', (event) => {
+    keysPressed[event.key.toLowerCase()] = true;
+  });
 
-  scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
-    BABYLON.ActionManager.OnKeyDownTrigger,
-    (evt: any) => {
-      if (evt.sourceEvent.key === 'l' || evt.sourceEvent.key === 'L') {
-        hitBallToPlayer1();
-      };
-    },
-  ));
-  console.log("Controls initialized for hitting ball to player 1");
+  window.addEventListener('keyup', (event) => {
+    keysPressed[event.key.toLowerCase()] = false;
+  });
+
+  scene.registerBeforeRender(() => { updatePadMovement(); });
   console.log("Controls setup complete");
+};
+
+/**
+ * Update pad movement based on key presses.
+ */
+function updatePadMovement(): void {
+  if (keysPressed['q'])  movePad(1,   'up');
+  if (keysPressed['a'])  movePad(1, 'down');
+  if (keysPressed['m'])  movePad(2,   'up');
+  if (keysPressed['p'])  movePad(2, 'down');
 };

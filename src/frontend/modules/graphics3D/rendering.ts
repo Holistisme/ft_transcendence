@@ -6,7 +6,7 @@
 /*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 18:08:59 by alexy             #+#    #+#             */
-/*   Updated: 2025/07/18 10:12:13 by alexy            ###   ########.fr       */
+/*   Updated: 2025/07/21 18:33:07 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ import { initAudio }                    from    "./audio.js";
 import { initCamera, initLight }        from   "./camera.js";
 import { initControls }                 from "./controls.js";
 import { initBall, updateBallPosition } from     "./ball.js";
+import { initPads }                     from      "./pad.js";
+import { aiPlay }                       from       "./ai.js";
 
 let engine: any;
 let scene:  any;
@@ -40,9 +42,8 @@ export function initGraphics(canvasId: string): void {
   initCamera  (scene, engine);
   initLight   (scene);
   initControls(scene);
-  initBall    (scene); //TODO: Implement ball initialization after dome creation.
-
-  console.log("Graphics engine initialized successfully");
+  initPads    (scene);
+  console.log ("Graphics engine initialized successfully");
 };
 
 /**
@@ -88,9 +89,14 @@ export function startRendering(): void {
             material.diffuseTexture        = new BABYLON.Texture         ("/assets/models/table/texture.jpg", scene);
             material.diffuseTexture.vScale = -1;
             mesh.material                  = material;
+            mesh.receiveShadows            = true;
+            console.log("Table material applied successfully");
           };
         });
+        table.receiveShadows = true;
         console.log("Ping pong table model processed successfully");
+
+        initBall(scene);
       } catch (error) {
         console.error("Error processing ping pong table model:", error);
       };
@@ -100,6 +106,13 @@ export function startRendering(): void {
   engine.runRenderLoop(() => {
     updateBallPosition();
     scene.render();
+
+    const ball = scene.getMeshByName("ball");
+    if (ball) {
+      aiPlay(ball);
+    } else {
+      console.warn("Ball mesh not found in the scene");
+    };
   });
   window.addEventListener("resize", () => { engine.resize(); });
   console.log("Rendering loop started");
