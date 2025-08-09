@@ -6,27 +6,27 @@
 /*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:27:19 by alexy             #+#    #+#             */
-/*   Updated: 2025/07/22 10:11:45 by alexy            ###   ########.fr       */
+/*   Updated: 2025/08/07 21:02:33 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 declare const BABYLON: any;
 
+import { game } from "./state.js";
+
 /**
- * Creates a sparkle effect at the specified position in the scene.
- * @param scene The Babylon.js scene to add the effect to.
- * @param position The position where the sparkle effect should be created.
+ * Create a sparkle effect at the ball's position
  */
-export function createSparkleEffect(scene: any, position: any): void {
-  if (!scene) {
+export function createSparkleEffect(): void {
+  if (!game.scene) {
     console.error("Scene not initialized");
     return;
   };
 
-  const particleSystem = new BABYLON.ParticleSystem("sparkle", 50, scene);
+  const particleSystem = new BABYLON.ParticleSystem("sparkle", 50, game.scene);
 
-  particleSystem.particleTexture = new BABYLON.Texture("/assets/textures/flare.png", scene);
-  particleSystem.emitter         = new BABYLON.Vector3(position.x, position.y, position.z);
+  particleSystem.particleTexture = new BABYLON.Texture("/assets/textures/flare.png", game.scene);
+  particleSystem.emitter         = new BABYLON.Vector3(game.ball.position.x, game.ball.position.y, game.ball.position.z);
   particleSystem.minEmitBox      = new BABYLON.Vector3(-10, -10, -10);
   particleSystem.maxEmitBox      = new BABYLON.Vector3( 10,  10,  10);
   particleSystem.color1          = new BABYLON.Color4 (  1,   1,   1, 1);
@@ -50,5 +50,5 @@ export function createSparkleEffect(scene: any, position: any): void {
     }, 500);
   }, 200);
 
-  console.log("Sparkle effect created at position:", position);
+  console.log("Sparkle effect created at position:", game.ball.position);
 };

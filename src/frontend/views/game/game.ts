@@ -6,7 +6,7 @@
 /*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:41:07 by alexy             #+#    #+#             */
-/*   Updated: 2025/07/18 09:15:56 by alexy            ###   ########.fr       */
+/*   Updated: 2025/08/09 14:47:40 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ export async function showGame(): Promise<void> {
     };
     app.innerHTML = await res.text();
 
-    document.getElementById('start-game')!.addEventListener('click', () => {
-        initGraphics  ('game-canvas');
-        startRendering();
+    document.getElementById('start-game')!.addEventListener('click', async () => {
+        await initGraphics('game-canvas');
+        startRendering    ();
     });
 };

@@ -6,7 +6,7 @@
 /*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 18:09:31 by alexy             #+#    #+#             */
-/*   Updated: 2025/07/21 18:16:42 by alexy            ###   ########.fr       */
+/*   Updated: 2025/08/09 14:16:54 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ export async function initAudio(): Promise<void> {
     themeMusic  = await BABYLON.CreateSoundAsync("themeMusic",  "/assets/sounds/theme.mp3", {
       loop:     true,
       autoplay: true,
+      volume:   0.25,
     });
 
     await audioEngine.unlockAsync();
