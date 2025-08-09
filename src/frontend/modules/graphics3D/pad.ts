@@ -6,57 +6,58 @@
 /*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:56:52 by alexy             #+#    #+#             */
-/*   Updated: 2025/07/22 10:04:55 by alexy            ###   ########.fr       */
+/*   Updated: 2025/08/09 09:48:42 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 declare const BABYLON: any;
 
-let pad1 : any;
-let pad2 : any;
-let pos1 =   0;
-let pos2 =   0;
-
-const PAD_HEIGHT =  20;
-const PAD_WIDTH  = 100;
-const PAD_SPEED  =   3;
-const PAD_LIMIT  = 200;
+import { game } from "./state.js";
 
 /**
  * Initialize the pads in the scene
- * @param scene The Babylon.js scene
  */
-export function initPads(scene: any): void {
-  if (!scene) {
-    console.error("Scene not initialized");
-    return;
-  };
+export function initPads(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (!game.scene) {
+      console.error("Scene not initialized");
+      reject("Scene not initialized");
+      return;
+    };
 
-  console.log("Initializing pads...");
-  pad1 = BABYLON.MeshBuilder.CreateGround("pad1", {
-    width:  PAD_WIDTH,
-    height: PAD_HEIGHT,
-  }, scene);
-  pad1.position = new BABYLON.Vector3(0, -155, -395);
+    game.players[0].pad.height   = game.players[1].pad.height   = game.table.depth / 30;
+    game.players[0].pad.width    = game.players[1].pad.width    = game.table.width / 10;
+    game.players[0].pad.position = game.players[1].pad.position = game.table.depth / 2 - game.players[0].pad.height / 1.5;
+    game.players[0].pad.limit    = game.players[1].pad.limit    = game.table.width / 2 * 0.95 - game.players[0].pad.width;
+    game.players[0].pad.speed    = game.players[1].pad.speed    = game.players[0].pad.width / 10;
 
-  pad2 = BABYLON.MeshBuilder.CreateGround("pad2", {
-    width:  PAD_WIDTH,
-    height: PAD_HEIGHT,
-  }, scene);
-  pad2.position = new BABYLON.Vector3(0, -155, 395);
+    console.log("Initializing pads...");
+    game.players[0].pad.mesh = BABYLON.MeshBuilder.CreateGround("pad1", {
+      width:  game.players[0].pad.width,
+      height: game.players[0].pad.height,
+    }, game.scene);
+    game.players[0].pad.mesh.position = new BABYLON.Vector3(0, game.table.center.y + game.table.height * 0.84, game.players[0].pad.position);
 
-  const material1         = new BABYLON.StandardMaterial("pad1Material", scene);
-  const material2         = new BABYLON.StandardMaterial("pad2Material", scene);
-  material1.diffuseColor  = new BABYLON.Color3(0.2, 0.2, 0.8);
-  material2.diffuseColor  = new BABYLON.Color3(0.8, 0.2, 0.2);
-  material1.emissiveColor = new BABYLON.Color3(0.2, 0.2, 0.8);
-  material2.emissiveColor = new BABYLON.Color3(0.8, 0.2, 0.2);
-  material1.alpha         = 0.8;
-  material2.alpha         = 0.8;
-  pad1.material           = material1;
-  pad2.material           = material2;
+    game.players[1].pad.mesh = BABYLON.MeshBuilder.CreateGround("pad2", {
+      width:  game.players[1].pad.width,
+      height: game.players[1].pad.height,
+    }, game.scene);
+    game.players[1].pad.mesh.position = new BABYLON.Vector3(0, game.table.center.y + game.table.height * 0.84, -game.players[1].pad.position);
 
-  console.log("Pads initialized successfully");
+    const material1         = new BABYLON.StandardMaterial("pad1Material", game.scene);
+    const material2         = new BABYLON.StandardMaterial("pad2Material", game.scene);
+    material1.diffuseColor  = new BABYLON.Color3(0.2, 0.2, 0.8);
+    material2.diffuseColor  = new BABYLON.Color3(0.8, 0.2, 0.2);
+    material1.emissiveColor = new BABYLON.Color3(0.2, 0.2, 0.8);
+    material2.emissiveColor = new BABYLON.Color3(0.8, 0.2, 0.2);
+    material1.alpha         = 0.8;
+    material2.alpha         = 0.8;
+    game.players[0].pad.mesh.material = material1;
+    game.players[1].pad.mesh.material = material2;
+
+    console.log("Pads initialized successfully");
+    resolve();
+  });
 };
 
 /**
@@ -75,22 +76,16 @@ export function movePad(pad: number, direction: string): void {
     return;
   };
 
-  const padMesh = pad === 1 ? pad1 : pad2;
-  const pos     = pad === 1 ? pos1 : pos2;
-  const delta   = direction === "up" ? PAD_SPEED : -PAD_SPEED;
+  const padMesh = pad       === 1    ? game.players[0]      .pad.mesh            :  game.players[1]      .pad.mesh;
+  const pos     = pad       === 1    ? game.players[0]      .pad.mesh.position.x :  game.players[1]      .pad.mesh.position.x;
+  const delta   = direction === "up" ? game.players[pad - 1].pad.speed           : -game.players[pad - 1].pad.speed;
   const newPos  = pos + delta;
 
-  if (newPos - PAD_WIDTH / 4 < -PAD_LIMIT || newPos + PAD_WIDTH / 4 > PAD_LIMIT) {
+  if (newPos < -game.players[pad - 1].pad.limit || newPos > game.players[pad - 1].pad.limit) {
     console.warn("Pad movement out of bounds");
     return;
   };
 
   padMesh.position.x += delta;
-  if (pad === 1) {
-    pos1 = newPos;
-  } else {
-    pos2 = newPos;
-  };
-
-  console.log(`Pad ${pad} moved ${direction} to position:`, padMesh.position);
+  game.players[pad === 1 ? 0 : 1].pad.position = newPos;
 };

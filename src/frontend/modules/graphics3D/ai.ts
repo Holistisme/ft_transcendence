@@ -6,7 +6,7 @@
 /*   By: alexy <alexy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 17:17:35 by alexy             #+#    #+#             */
-/*   Updated: 2025/07/22 10:02:58 by alexy            ###   ########.fr       */
+/*   Updated: 2025/08/09 14:20:15 by alexy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ export function aiPlay(ball: any): void {
   // ! AI updates every 10 milliseconds
   // ! This is to simulate a more human-like reaction time
   const now = Date.now();
-  if (now - aiLastUpdate < 10) {
+  if (now - aiLastUpdate < 20) {
     return;
   };
   aiLastUpdate = now;
@@ -37,7 +37,7 @@ export function aiPlay(ball: any): void {
 
   // ! Randomly skip AI movement to simulate human-like behavior
   // ! This adds unpredictability to the AI's performance
-  if (Math.random() < 0.1) {
+  if (Math.random() < 0.25) {
     return;
   };
 
